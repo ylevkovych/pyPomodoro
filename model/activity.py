@@ -1,14 +1,15 @@
-#!/usr/bin/python
+
+import time
+import os
 
 from task import *
-import time
-import os, subprocess
 
 class Activity:
 	# constructor
 	
-	def __init__(self, task_count = 0):
+	def __init__(self, task_count = 0, serial_id = 1):
 		self._task_list = list()
+		self.set_serial_id(serial_id)
 		self.set_task_count(task_count)
 		self.set_task_list()
 		self.set_in_progress_task(None)
@@ -42,6 +43,13 @@ class Activity:
 	def set_in_progress_task(self, task):
 		self._in_progress_task = task
 
+	def set_serial_id(self, serial_id):
+		self._serial_id = serial_id
+
+	def get_serial_id(self):
+		return self._serial_id
+
+
 	def get_task_count(self):
 		return self._task_count
 
@@ -63,30 +71,32 @@ class Activity:
 
 	def run(self):
 		if self.get_in_progress_task() == None:
+
+			app_dir = str(os.path.abspath("."))
 			self.clear_task_status()
 			
 			for task in self.get_task_list():
 				self.set_in_progress_task(task)
 				task.set_status("In progress") 
 
-				cmd_str = 'DISPLAY=:0 notify-send -t 1000 -i ~/Pomodoro/pomodoro.png "New Pomodoro starts" "'+ task.get_name() + '"'
+				cmd_str = 'notify-send -t 1000 -i ' + app_dir  + '/appereance/pomodoro.png "New Pomodoro starts" "'+ task.get_name() + '"'
 								
 				if task.get_task_type == 'break':
-					os.system("aplay notify.wav")
+					os.system('aplay ' + app_dir  + '/appereance/notify.wav')
 				else:
-					os.system("aplay notify.wav")
+					os.system('aplay ' + app_dir  + '/appereance/notify.wav')
 					os.system(cmd_str)
 				
 				time.sleep(task.get_duration()) # sleep
 				task.set_status("Done")
 				
 			self.set_in_progress_task(None)
-			cmd_str = 'DISPLAY=:0 notify-send -t 1000 -i ~/Pomodoro/pomodoro.png "Congratulation" "Your work finished." '
-			os.system("aplay notify.wav")
+			cmd_str = 'notify-send -t 1000 -i ' + app_dir  + '/appereance/pomodoro.png "Congratulation" "Your work finished." '
+			os.system('aplay ' + app_dir  + '/appereance/notify.wav')
 			os.system(cmd_str)
 
 		else:
-			cmd_str = 'DISPLAY=:0 notify-send -t 1000 -i ~/Pomodoro/pomodoro.png "Sorry" "Your pomodoro is in progress." '
-			os.system("aplay notify.wav")
+			cmd_str = 'notify-send -t 1000 -i ' + app_dir  + '/appereance/pomodoro.png "Sorry" "Your pomodoro is in progress." '
+			os.system('aplay ' + app_dir  + '/appereance/notify.wav')
 			os.system(cmd_str)
 			
