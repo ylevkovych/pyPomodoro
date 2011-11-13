@@ -31,7 +31,7 @@ class Activity:
 				# add break
 				if i < count:
 					if i % 4 == 0:
-						break_task = Task("Take a 30 min break", 30)
+    						break_task = Task("Take a 30 min break", 30)
 						work_task.set_task_type('break')
 						self.add_task(break_task)
 					else:

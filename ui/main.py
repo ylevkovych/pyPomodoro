@@ -1,4 +1,3 @@
-
 import wx
 import sys
 import os
@@ -18,7 +17,9 @@ class App(wx.App):
 class MainFrame(wx.Frame):
 	def __init__(self, *args, **kwargs):
 		super(MainFrame, self).__init__(*args, **kwargs)
-
+		
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
+		
 		self.size = (40, 200)
 				
 		self.panel = MainPanel(self)
@@ -26,7 +27,21 @@ class MainFrame(wx.Frame):
 		refresh_thread = threads.RefreshThread(window = self, activity = activity)
 		
 		threads.thread_list.append(refresh_thread)
-
+		
+	def OnClose(self, event):
+		dlg = wx.MessageDialog(self,
+			"Do you really want to exit this application?",
+			"Confirm exit", 
+			wx.YES_NO|wx.ICON_QUESTION)
+			
+		result = dlg.ShowModal()
+		dlg.Destroy()
+				
+		if result == wx.ID_YES:
+			threads.stop_all_threads()
+			self.Destroy()
+		
+		
 class MainPanel(wx.Panel):
 	def __init__(self, parent):
 

@@ -9,7 +9,6 @@ else:
 	app = main_frame.App()
 	app.MainLoop()
 
-	threads.stop_all_threads()
 	
 	
 
