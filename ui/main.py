@@ -66,7 +66,7 @@ class MainPanel(wx.Panel):
 
 		self.Bind(wx.EVT_BUTTON, self.eventsHandler.btn_pomodos_count_on_click, self.btn_pomodos_count)
 		self.Bind(wx.EVT_BUTTON, self.eventsHandler.btn_pomodo_play_on_click, self.btn_pomodoro_play)
-		
+
 	def refresh_pomodoro_activity(self):
 		self.activity_list.DeleteAllItems()
 		for task in activity.get_task_list():

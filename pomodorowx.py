@@ -9,7 +9,4 @@ else:
 	app = main_frame.App()
 	app.MainLoop()
 
-	
-	
-
 
